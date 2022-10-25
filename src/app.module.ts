@@ -16,7 +16,7 @@ import { AuthModule } from './api/auth/auth.module';
         type: 'mariadb',
         host: configService.get('HOST'),
         port: +configService.get('PORT'),
-        username: configService.get('DBUSERNAME'), //윈도우에서는 ㄹㅇ 사용자 이름을 가져와서 오류가 생깁니다.
+        username: configService.get('DBUSERNAME'), //윈도우에서는 ㄹㅇ 사용자 이름을 가져와서 오류가 생깁니다.(USERNAME일 경우)
         password: configService.get('PASSWORD'),
         database: configService.get('DATABASE'),
         entities: [],

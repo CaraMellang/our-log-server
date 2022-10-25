@@ -1,8 +1,28 @@
 import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { SignInRequestDto } from './dto/request/signup-request.dto';
 
-@Controller('auth')
+@Controller('api/v1/auth')
 export class AuthController {
-  constructor() {}
+  constructor(private readonly authService: AuthService) {}
+
+  @Post('/signup')
+  async signUp(@Body() signUpReq: SignInRequestDto) {
+    return this.authService.signUp(signUpReq);
+  }
+  @Post('/signin')
+  async signIn() {
+    return;
+  }
+
+  @Post('oauth/google')
+  async oauthGoogle() {
+    return;
+  }
+  @Post('oauth/naver')
+  async oauthNaver() {
+    return;
+  }
 
   @Post(`/test`)
   async postTest(
