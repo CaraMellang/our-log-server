@@ -5,6 +5,8 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './api/auth/auth.module';
+import { User } from './entity/user/user.entity';
+import { AuthToken } from './entity/auth/auth-token.entity';
 
 @Module({
   imports: [
@@ -19,10 +21,12 @@ import { AuthModule } from './api/auth/auth.module';
         username: configService.get('DBUSERNAME'), //윈도우에서는 ㄹㅇ 사용자 이름을 가져와서 오류가 생깁니다.(USERNAME일 경우)
         password: configService.get('PASSWORD'),
         database: configService.get('DATABASE'),
-        entities: [],
+        entities: [User, AuthToken],
+        // entities: ['**/*.entity.(t|j)s']
         autoLoadEntities: true,
-        synchronize:
-          configService.get('NODE_ENV') === 'development' ? true : false,
+        synchronize: true,
+        // synchronize:
+        //   configService.get('NODE_ENV') === 'development' ? true : false,
         namingStrategy: new SnakeNamingStrategy(),
         logging: configService.get('NODE_ENV') === 'development' ? true : false,
       }),

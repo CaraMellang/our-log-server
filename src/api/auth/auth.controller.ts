@@ -1,18 +1,24 @@
 import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SignInRequestDto } from './dto/request/signup-request.dto';
+import { SignInRequestDto } from './dto/request/signin-request.dto';
+import { SignUpRequestDto } from './dto/request/signup-request.dto';
 
 @Controller('api/v1/auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/signup')
-  async signUp(@Body() signUpReq: SignInRequestDto) {
+  async signUp(@Body() signUpReq: SignUpRequestDto) {
     return this.authService.signUp(signUpReq);
   }
   @Post('/signin')
-  async signIn() {
-    return;
+  async signIn(@Body() signInReq: SignInRequestDto) {
+    return this.authService.signIn(signInReq);
+  }
+
+  @Post('/verify')
+  async verifyUser(@Body() payload: { access_token: string }) {
+    return this.authService.verifyUser(payload.access_token);
   }
 
   @Post('oauth/google')
