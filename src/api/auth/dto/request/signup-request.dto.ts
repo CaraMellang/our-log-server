@@ -16,8 +16,8 @@ export class SignUpRequestDto {
   @IsString()
   phone: string;
 
-  @IsEnum(YN)
-  smsYn: 'Y' | 'N';
+  @IsEnum(YN) //tree-shaking 문제?
+  smsYn: YN;
 
   @IsOptional()
   @IsString()

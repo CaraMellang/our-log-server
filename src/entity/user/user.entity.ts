@@ -1,4 +1,5 @@
 import { IsDate, IsEmail } from 'class-validator';
+import { YN } from 'src/common/types/constant/constant';
 import {
   Column,
   CreateDateColumn,
@@ -34,7 +35,7 @@ export class User {
   // blog:Blog
 
   @Column({ nullable: true })
-  smsYn: string;
+  smsYn: YN;
 
   @Column({ default: 'user' })
   role: string;

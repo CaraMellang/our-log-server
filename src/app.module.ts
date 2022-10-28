@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './api/auth/auth.module';
 import { User } from './entity/user/user.entity';
 import { AuthToken } from './entity/auth/auth-token.entity';
+import { UserLoginHistory } from './entity/user/user-login-history.entity';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { AuthToken } from './entity/auth/auth-token.entity';
         username: configService.get('DBUSERNAME'), //윈도우에서는 ㄹㅇ 사용자 이름을 가져와서 오류가 생깁니다.(USERNAME일 경우)
         password: configService.get('PASSWORD'),
         database: configService.get('DATABASE'),
-        entities: [User, AuthToken],
+        entities: [User, AuthToken, UserLoginHistory],
         // entities: ['**/*.entity.(t|j)s']
         autoLoadEntities: true,
         synchronize: true,

@@ -12,7 +12,7 @@ export class AuthToken {
   @Column('varchar', { length: 1000 })
   accessToken: string;
 
-  @Column('varchar', { length: 1000 })
+  @Column('varchar', { length: 1000, nullable: true })
   refreshToken: string;
 
   updateAccessToken(updatedAccessToken: string) {

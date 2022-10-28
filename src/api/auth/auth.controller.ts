@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
+import { Controller, Ip, Post, Body, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInRequestDto } from './dto/request/signin-request.dto';
 import { SignUpRequestDto } from './dto/request/signup-request.dto';
+import { Request } from 'express';
+import { JwtAuthGuard } from './guard/jwt-auth.guard';
 
 @Controller('api/v1/auth')
 export class AuthController {
@@ -12,13 +14,18 @@ export class AuthController {
     return this.authService.signUp(signUpReq);
   }
   @Post('/signin')
-  async signIn(@Body() signInReq: SignInRequestDto) {
-    return this.authService.signIn(signInReq);
+  async signIn(@Req() req: Request, @Body() signInReq: SignInRequestDto) {
+    return this.authService.signIn(req, signInReq);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/verify')
-  async verifyUser(@Body() payload: { access_token: string }) {
-    return this.authService.verifyUser(payload.access_token);
+  async verifyUser(
+    @Req() req: Request,
+    // @Ip() ip,
+    @Body() payload: { access_token: string },
+  ) {
+    return this.authService.verifyUser(req, payload.access_token);
   }
 
   @Post('oauth/google')
