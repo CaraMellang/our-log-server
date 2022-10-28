@@ -3,6 +3,14 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
+interface Payload {
+  email: string;
+  password: string;
+  role: string;
+  iat:number;
+  exp:number;
+}
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
@@ -19,8 +27,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: any) {
+  async validate(payload: Payload) {
     console.log('토큰', payload);
-    return { userId: payload.sub, username: payload.username };
+    return payload;
   }
 }

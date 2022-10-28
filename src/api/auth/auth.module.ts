@@ -13,10 +13,9 @@ import { JwtStrategy } from './strayegy/jwt-auth.stategy';
   imports: [
     TypeOrmModule.forFeature([User, AuthToken, UserLoginHistory]),
     PassportModule,
-    JwtModule.register({ secret: 'secret', signOptions: { expiresIn: '60s' } }),
+    JwtModule.register({ secret: 'secret', signOptions: { expiresIn: '1h' } }),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
-  // exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

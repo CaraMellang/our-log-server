@@ -87,8 +87,9 @@ export class AuthService {
 
   async verifyUser(req: Request, access_token: string) {
     try {
-      this.jwtService.verify(access_token);
-      const decodedToken = this.jwtService.decode(access_token) as {
+      const accessToken = req.headers['authorization'].split(' ')[1];
+      console.log(accessToken);
+      const decodedToken = this.jwtService.decode(accessToken) as {
         email: string;
         updatedAt: string;
         iat: number;
