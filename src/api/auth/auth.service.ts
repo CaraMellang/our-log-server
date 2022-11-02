@@ -15,6 +15,7 @@ import { AuthToken } from 'src/entity/auth/auth-token.entity';
 import { UserLoginHistory } from 'src/entity/user/user-login-history.entity';
 import { Request } from 'express';
 
+//천재 개발자의 class transformer
 @Injectable()
 export class AuthService {
   constructor(
