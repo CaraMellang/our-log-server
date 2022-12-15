@@ -66,12 +66,15 @@ export class AuthService {
         userSeq: user.seq,
         accessToken: access_token,
       });
-      console.log(req.ip.split('::ffff:')[1]);
-      console.log(req.headers);
+      const clientIp =
+        req.ip.split('::ffff:')[1] || req.ip.split('::')[1] === '1'
+          ? '127.0.0.1'
+          : '127.0.0.1';
+      console.log('SignIn Ip : ', req.ip, clientIp, req.ip.split('::'));
       const userHistory = this.userLoginHistory.create({
         userSeq: user.seq,
         userAgent: req.headers['user-agent'],
-        regIp: req.ip.split('::ffff:')[1],
+        regIp: clientIp,
       });
       await this.authTokenrepository.save(tokenHistory);
       await this.userLoginHistory.save(userHistory);
