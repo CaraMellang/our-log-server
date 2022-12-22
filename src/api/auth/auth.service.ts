@@ -1,9 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { SignUpRequestDto } from './dto/request/signup-request.dto';
 import * as bcrypt from 'bcrypt';
 import { Connection, Repository } from 'typeorm';
@@ -45,16 +40,10 @@ export class AuthService {
         select: ['seq', 'email', 'password', 'role'],
         where: { email: signInReq.email },
       });
-      if (!user) throw new NotFoundException('없습니다!', 'user not found');
-      const comparedPW = await bcrypt.compare(
-        signInReq.password,
-        user.password,
-      );
+      if (!user) throw new NotFoundException('없는 유저 입니다!', 'user not found');
+      const comparedPW = await bcrypt.compare(signInReq.password, user.password);
       if (!comparedPW)
-        throw new HttpException(
-          { status: HttpStatus.UNAUTHORIZED, error: '잘못된 비밀번호입니다!' },
-          401,
-        );
+        throw new HttpException({ status: HttpStatus.UNAUTHORIZED, error: '잘못된 비밀번호입니다!' }, 401);
 
       const access_token = this.jwtService.sign({
         email: user.email,
@@ -66,10 +55,7 @@ export class AuthService {
         userSeq: user.seq,
         accessToken: access_token,
       });
-      const clientIp =
-        req.ip.split('::ffff:')[1] || req.ip.split('::')[1] === '1'
-          ? '127.0.0.1'
-          : '127.0.0.1';
+      const clientIp = req.ip.split('::ffff:')[1] || req.ip.split('::')[1] === '1' ? '127.0.0.1' : '127.0.0.1';
       console.log('SignIn Ip : ', req.ip, clientIp, req.ip.split('::'));
       const userHistory = this.userLoginHistory.create({
         userSeq: user.seq,
@@ -79,11 +65,11 @@ export class AuthService {
       await this.authTokenrepository.save(tokenHistory);
       await this.userLoginHistory.save(userHistory);
 
-      let response = { access_token };
+      const response = { access_token, ...user };
 
       return response;
     } catch (e) {
-      console.log(e);
+      console.log('헤헤..', e);
       console.log(e.code);
       return e;
     }
@@ -104,13 +90,10 @@ export class AuthService {
         select: ['email'],
         where: { email: decodedToken.email },
       });
-      if (!user)
-        throw new HttpException(
-          { status: 404, error: '유저가 존재하지 않습니다!' },
-          404,
-        );
+      if (!user) throw new HttpException({ status: 404, error: '유저가 존재하지 않습니다!' }, 404);
 
-      return true;
+      const response = true;
+      return response;
     } catch (e) {
       return e;
     }

@@ -8,6 +8,9 @@ import { AuthModule } from './api/auth/auth.module';
 import { User } from './entity/user/user.entity';
 import { AuthToken } from './entity/auth/auth-token.entity';
 import { UserLoginHistory } from './entity/user/user-login-history.entity';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpExceptionFilter } from './common/exception/http-exceoption.filter';
+import { PostModule } from '@api/post/post.module';
 
 @Module({
   imports: [
@@ -32,9 +35,16 @@ import { UserLoginHistory } from './entity/user/user-login-history.entity';
         logging: configService.get('NODE_ENV') === 'development' ? true : false,
       }),
     }),
+    PostModule,
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
+  ],
 })
 export class AppModule {}

@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { IsDate, IsEmail } from 'class-validator';
 import { YN } from 'src/common/types/constant/constant';
 import {
@@ -25,6 +26,7 @@ export class User {
   @IsEmail()
   email: string;
 
+  @Exclude()
   @Column({ nullable: false })
   password: string;
 
