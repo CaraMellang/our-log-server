@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -17,11 +18,13 @@ export class Post {
   @PrimaryGeneratedColumn()
   seq: number;
 
-  @OneToOne(() => Blog, (Blog) => Blog.seq)
-  blogSeq: number;
+  @OneToOne(() => Blog, (Blog) => Blog, { onDelete: 'CASCADE' })
+  @JoinColumn()
+  blog: Blog;
 
-  @OneToOne(() => User, (User) => User.seq)
-  ownerSeq: number;
+  @OneToOne(() => User, (User) => User, { onDelete: 'CASCADE' })
+  @JoinColumn()
+  owner: User;
 
   @Column({ comment: '게시글의 제목' })
   title: string;
@@ -29,8 +32,9 @@ export class Post {
   @Column({ comment: '게시글의 내용(Markdown)' })
   content: string;
 
-  @OneToMany(() => PostTag, (PostTag) => PostTag.seq)
-  tagSeq: number;
+  @OneToMany(() => PostTag, (PostTag) => PostTag, { cascade: true })
+  @JoinColumn()
+  tag: PostTag;
 
   @CreateDateColumn()
   @IsDate()

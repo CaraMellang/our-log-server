@@ -8,10 +8,11 @@ import { JwtModule } from '@nestjs/jwt/dist';
 import { AuthToken } from 'src/entity/auth/auth-token.entity';
 import { UserLoginHistory } from 'src/entity/user/user-login-history.entity';
 import { JwtStrategy } from './strayegy/jwt-auth.stategy';
+import { Blog } from '@entity/blog/blog.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, AuthToken, UserLoginHistory]),
+    TypeOrmModule.forFeature([User, AuthToken, UserLoginHistory, Blog]),
     PassportModule,
     JwtModule.register({ secret: 'secret', signOptions: { expiresIn: '1h' } }),
   ],

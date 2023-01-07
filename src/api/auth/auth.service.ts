@@ -9,6 +9,7 @@ import { SignInRequestDto } from './dto/request/signin-request.dto';
 import { AuthToken } from 'src/entity/auth/auth-token.entity';
 import { UserLoginHistory } from 'src/entity/user/user-login-history.entity';
 import { Request } from 'express';
+import { Blog } from '@entity/blog/blog.entity';
 
 //천재 개발자의 class transformer
 @Injectable()
@@ -19,6 +20,8 @@ export class AuthService {
     private readonly authTokenrepository: Repository<AuthToken>,
     @InjectRepository(UserLoginHistory)
     private readonly userLoginHistory: Repository<UserLoginHistory>,
+    @InjectRepository(Blog)
+    private readonly blogRepository: Repository<Blog>,
     private readonly jwtService: JwtService,
   ) {}
   async signUp(signUpReq: SignUpRequestDto) {
@@ -26,8 +29,13 @@ export class AuthService {
       const hashedPW = await bcrypt.hash(signUpReq.password, 10);
       const user = this.userRepository.create(signUpReq);
       user.password = hashedPW;
-      await this.userRepository.save(user);
-      return true;
+      const savedUser = await this.userRepository.save(user);
+      const blog = this.blogRepository.create({
+        owner: savedUser,
+        blogTitle: `${savedUser.username}님 오늘도 좋은하루 보내세요`,
+      });
+      console.log('뭔데시발', savedUser, blog);
+      await this.blogRepository.save(blog);
     } catch (e) {
       console.log(e);
       return e;
@@ -46,6 +54,7 @@ export class AuthService {
         throw new HttpException({ status: HttpStatus.UNAUTHORIZED, error: '잘못된 비밀번호입니다!' }, 401);
 
       const access_token = this.jwtService.sign({
+        seq: user.seq,
         email: user.email,
         password: user.password,
         role: user.role,
