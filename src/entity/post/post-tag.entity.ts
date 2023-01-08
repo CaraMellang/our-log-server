@@ -1,12 +1,6 @@
 import { IsDate } from 'class-validator';
 import { YN } from 'src/common/types/constant/constant';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class PostTag {

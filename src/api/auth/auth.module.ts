@@ -12,9 +12,9 @@ import { Blog } from '@entity/blog/blog.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, AuthToken, UserLoginHistory, Blog]),
+    // TypeOrmModule.forFeature([User, AuthToken, UserLoginHistory, Blog]),
     PassportModule,
-    JwtModule.register({ secret: 'secret', signOptions: { expiresIn: '1h' } }),
+    // JwtModule.register({ secret: 'secret', signOptions: { expiresIn: '1h' } }),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],

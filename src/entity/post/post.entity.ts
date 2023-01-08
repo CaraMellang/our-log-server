@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -18,11 +19,11 @@ export class Post {
   @PrimaryGeneratedColumn()
   seq: number;
 
-  @OneToOne(() => Blog, (Blog) => Blog, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Blog, (Blog) => Blog, { onDelete: 'CASCADE' })
   @JoinColumn()
   blog: Blog;
 
-  @OneToOne(() => User, (User) => User, { onDelete: 'CASCADE' })
+  @ManyToOne(() => User, (User) => User, { onDelete: 'CASCADE' })
   @JoinColumn()
   owner: User;
 

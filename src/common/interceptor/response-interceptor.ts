@@ -17,10 +17,12 @@ export class TransformInterceptor<T> implements NestInterceptor<T, Response<T>> 
     const isPostMethod = req.method;
     const isStatusCodeCreate = res.statusCode === HttpStatus.OK;
 
+    console.log('Intercepter', isPostMethod, res.statusCode);
+
     return next.handle().pipe(
       map((data) => {
         if (isPostMethod && isStatusCodeCreate)
-          res.status(data.status || context.switchToHttp().getResponse().statusCode);
+          res.status(res.statusCode || context.switchToHttp().getResponse().statusCode);
         return {
           statusCode: context.switchToHttp().getResponse().statusCode,
           reqId: context.switchToHttp().getRequest().reqId,

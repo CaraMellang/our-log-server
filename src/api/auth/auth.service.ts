@@ -34,8 +34,8 @@ export class AuthService {
         owner: savedUser,
         blogTitle: `${savedUser.username}님 오늘도 좋은하루 보내세요`,
       });
-      console.log('뭔데시발', savedUser, blog);
       await this.blogRepository.save(blog);
+      return true;
     } catch (e) {
       console.log(e);
       return e;
@@ -67,7 +67,7 @@ export class AuthService {
       const clientIp = req.ip.split('::ffff:')[1] || req.ip.split('::')[1] === '1' ? '127.0.0.1' : '127.0.0.1';
       console.log('SignIn Ip : ', req.ip, clientIp, req.ip.split('::'));
       const userHistory = this.userLoginHistory.create({
-        userSeq: user.seq,
+        user: user,
         userAgent: req.headers['user-agent'],
         regIp: clientIp,
       });
@@ -94,12 +94,20 @@ export class AuthService {
         iat: number;
         exp: number;
       };
-      console.log(decodedToken);
       const user = await this.userRepository.findOne({
-        select: ['email'],
         where: { email: decodedToken.email },
       });
       if (!user) throw new HttpException({ status: 404, error: '유저가 존재하지 않습니다!' }, 404);
+
+      const clientIp = req.ip.split('::ffff:')[1] || req.ip.split('::')[1] === '1' ? '127.0.0.1' : '127.0.0.1';
+      console.log('SignIn Ip : ', req.ip, clientIp, req.ip.split('::'));
+      const userHistory = this.userLoginHistory.create({
+        user: user,
+        userAgent: req.headers['user-agent'],
+        regIp: clientIp,
+        isAutoVerify: true,
+      });
+      await this.userLoginHistory.save(userHistory);
 
       const response = true;
       return response;

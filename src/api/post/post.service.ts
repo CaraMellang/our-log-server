@@ -1,7 +1,7 @@
 import { Blog } from '@entity/blog/blog.entity';
 import { Post } from '@entity/post/post.entity';
 import { User } from '@entity/user/user.entity';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pagination } from '@utils/Pagination';
@@ -18,7 +18,7 @@ export class PostService {
   ) {}
 
   async getAll(page: number, size: number) {
-    // totalCount: number, page: number, size: number, items: T[]
+    if (page <= 0 || size <= 0) throw new BadRequestException(`잘못된 값이 들어왔습니다. page=${page} size=${size}`);
     try {
       const offset = (page - 1) * size;
 
@@ -38,11 +38,8 @@ export class PostService {
     }
   }
   async createPost(postCreateReq: PostCreateRequestDto, headers: any) {
-    console.log('나 뭐임', headers);
     try {
       const accessToken = headers['authorization'].split(' ')[1];
-
-      console.log(this.jwtService.decode(accessToken));
 
       const decodedUser = this.jwtService.decode(accessToken) as {
         seq: number;
@@ -69,9 +66,6 @@ export class PostService {
         blog,
       });
       await this.postRepository.save(savedPost);
-      console.log(user);
-      console.log('블로그', blog);
-
       return true;
     } catch (e) {
       console.log(e);

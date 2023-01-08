@@ -33,7 +33,7 @@ export class PostController {
   @ApiBody({ type: '' })
   @ApiOperation({
     summary: '게시판 API',
-    description: 'gdgdgdd',
+    description: '게시판을 생성합니다. title과 content가 필요합니다.',
   })
   @ApiCreatedResponse({ description: '성공', type: 'true' })
   @ApiUnauthorizedResponse({ description: '불러오기 실패' })

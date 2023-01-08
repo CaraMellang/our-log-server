@@ -13,6 +13,10 @@ import { HttpExceptionFilter } from './common/exception/http-exceoption.filter';
 import { PostModule } from '@api/post/post.module';
 import { PostTag } from '@entity/post/post-tag.entity';
 import { Blog } from '@entity/blog/blog.entity';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtCoreModule } from '@common/module/jwt-core.module';
+import { UserModule } from '@api/user/user.module';
+import { TypeormCoreModule } from '@common/module/typeorm-core.module';
 
 @Module({
   imports: [
@@ -37,8 +41,11 @@ import { Blog } from '@entity/blog/blog.entity';
         logging: configService.get('NODE_ENV') === 'development' ? true : false,
       }),
     }),
+    JwtCoreModule,
+    TypeormCoreModule,
     PostModule,
     AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [
