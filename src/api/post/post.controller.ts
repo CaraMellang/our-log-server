@@ -9,7 +9,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { PostCreateRequestDto } from './dto/post-create-request.dto';
+import { PostCreateRequestDto } from './dto/request/post-create-request.dto';
 import { PostService } from './post.service';
 
 @ApiTags('게시판 API')

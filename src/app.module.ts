@@ -17,6 +17,9 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtCoreModule } from '@common/module/jwt-core.module';
 import { UserModule } from '@api/user/user.module';
 import { TypeormCoreModule } from '@common/module/typeorm-core.module';
+import { CoreModule } from '@common/core.module';
+import { CommonUtilsModule } from '@common/common-utils.module';
+import { SwaggerApiDocsModule } from '@api/swagger-api-docs/swagger-api-docs.module';
 
 @Module({
   imports: [
@@ -41,8 +44,9 @@ import { TypeormCoreModule } from '@common/module/typeorm-core.module';
         logging: configService.get('NODE_ENV') === 'development' ? true : false,
       }),
     }),
-    JwtCoreModule,
-    TypeormCoreModule,
+    CoreModule,
+    CommonUtilsModule,
+    SwaggerApiDocsModule,
     PostModule,
     AuthModule,
     UserModule,

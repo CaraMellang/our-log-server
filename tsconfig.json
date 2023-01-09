@@ -17,6 +17,7 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
+    "resolveJsonModule": true, //json도 import 가능
     "paths": {
       // 절대경로 설정
       "@*": ["src/*"],

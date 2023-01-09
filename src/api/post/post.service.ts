@@ -6,7 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pagination } from '@utils/Pagination';
 import { Repository } from 'typeorm';
-import { PostCreateRequestDto } from './dto/post-create-request.dto';
+import { PostCreateRequestDto } from './dto/request/post-create-request.dto';
 
 @Injectable()
 export class PostService {
