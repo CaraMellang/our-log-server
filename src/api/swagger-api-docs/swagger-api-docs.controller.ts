@@ -3,7 +3,7 @@ import { Controller, Get, HttpStatus, Res } from '@nestjs/common';
 
 @Controller('api/v1/swagger')
 export class SwaggerApiDocsController {
-  constructor() {}
+  // constructor() {}
 
   @Get('/api-docs')
   async getSwaggerApiDocs(@Res() res) {
