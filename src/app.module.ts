@@ -20,6 +20,7 @@ import { TypeormCoreModule } from '@common/module/typeorm-core.module';
 import { CoreModule } from '@common/core.module';
 import { CommonUtilsModule } from '@common/common-utils.module';
 import { SwaggerApiDocsModule } from '@api/swagger-api-docs/swagger-api-docs.module';
+import { SocketModule } from '@common/gateway/socket.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { SwaggerApiDocsModule } from '@api/swagger-api-docs/swagger-api-docs.mod
     PostModule,
     AuthModule,
     UserModule,
+    SocketModule,
   ],
   controllers: [AppController],
   providers: [
