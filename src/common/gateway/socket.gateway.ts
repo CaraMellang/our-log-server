@@ -80,7 +80,9 @@ export class EventsGateway {
     console.log(data.roomId);
     client.join(data.roomId);
     this.nsp.emit('joinedRoom', { roomId: data.roomId, message: `${data.username || 'Err'}님이 들어오셨습니다.` });
-    this.nsp.to(data.roomId).emit('joinedRoom', { roomId: data.roomId, message: `${client.id}가 들어왔대 왜 왔댐` });
+    this.nsp
+      .to(data.roomId)
+      .emit('joinedRoom', { roomId: data.roomId, message: `${data.username}가 들어왔대 왜 왔댐` });
   }
 
   @SubscribeMessage('leaveRoom')
@@ -90,7 +92,7 @@ export class EventsGateway {
   }
 
   @SubscribeMessage('msg')
-  msg(@MessageBody() data: { roomId: string; message: string }, @ConnectedSocket() client: Socket) {
-    this.nsp.to(data.roomId).emit('msg', { message: data.message });
+  msg(@MessageBody() data: { roomId: string; username: string; message: string }, @ConnectedSocket() client: Socket) {
+    this.nsp.to(data.roomId).emit('msg', { username: data.username, message: data.message });
   }
 }
